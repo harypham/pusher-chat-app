@@ -21,7 +21,7 @@ Route::get('/chat', function () {
 Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
-Route::get('/test', 'TestController@index')->name('test');
-
 Route::get('messages', 'ChatController@fetchMessages')->middleware('auth');
 Route::post('messages', 'ChatController@sendMessage')->middleware('auth');
+
+Route::resource('groups','GroupChatController')->middleware('auth');
