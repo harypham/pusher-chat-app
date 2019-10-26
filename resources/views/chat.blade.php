@@ -9,11 +9,13 @@
                     <div class="panel-heading">Chats</div>
 
                     <div class="panel-body">
-                        <chat-messages :messages="messages"></chat-messages>
+                        <chat-messages :messages="messages" v-bind:user-name="userName" v-bind:is-typing="isTyping">
+
+                        </chat-messages>
                     </div>
                     <div class="panel-footer">
-                        <chat-form
-                                v-on:messagesent="addMessage" :user="{{ Auth::user() }}"
+                        <chat-form v-on:messagesent="addMessage" user="{{ Auth::user()}}" user-name="{{ Auth::user()->name }}"
+
                         ></chat-form>
                     </div>
                 </div>
