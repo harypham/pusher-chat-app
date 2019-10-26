@@ -10,12 +10,15 @@ const app = new Vue({
         'chat-form': ChatForm
     },
     data: {
-        messages: []
+        messages: [],
+        isTyping: false,
+        userName:'',
     },
 
     created() {
         this.fetchMessages();
         this.listenNewMessage();
+
     },
 
     methods: {
@@ -32,13 +35,22 @@ const app = new Vue({
         },
 
         listenNewMessage() {
-            Echo.private('chat')
-                .listen('MessageSent', (data) => {
-                    this.messages.push({
-                        message: data.message.message,
-                        user: data.user
-                    });
+            Echo.private('chat').listen('MessageSent', (data) => {
+                this.messages.push({
+                    message: data.message.message,
+                    user: data.user
                 });
+            });
+
+            Echo.private('chat').listenForWhisper('typing', (data) => {
+                let node = this;
+                this.isTyping = data.typing;
+                this.userName = data.userName;
+
+                setTimeout(function () {
+                    node.isTyping = false
+                }, 5000);
+            });
         }
     }
 });
