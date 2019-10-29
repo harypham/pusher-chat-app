@@ -108,9 +108,10 @@ DoNotPush.php
 _ide_helper.php
 readme.md
 storage/debugbar/
- .idea/hapo-intern.iml
+ .idea/workspace.xml
  .idea/php.xml
-
+.idea/
+.idea/*
 /public/css/app.css
 /public/js/app.js
 /public/mix-manifest.json
