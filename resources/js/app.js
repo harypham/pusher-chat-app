@@ -2,12 +2,16 @@ require('./bootstrap');
 window.Vue = require('vue');
 import ChatMessages from './components/ChatMessages';
 import ChatForm from './components/ChatForm';
+import GroupChat from './components/GroupChat';
+import CreateGroup from './components/CreateGroup';
 
 const app = new Vue({
     el: '#app',
     components: {
         'chat-messages': ChatMessages,
-        'chat-form': ChatForm
+        'chat-form': ChatForm,
+        'group-chat': GroupChat,
+        'create-group': CreateGroup
     },
     data: {
         messages: [],
