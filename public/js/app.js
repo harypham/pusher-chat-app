@@ -2032,16 +2032,41 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony default export */ __webpack_exports__["default"] = ({
   data: function data() {
     return {
+      conversations: [],
       group: '',
-      messages: ''
+      newmessage: ''
     };
   },
   mounted: function mounted() {
     var _this = this;
 
+    this.fetchingConversations();
     _eventbus__WEBPACK_IMPORTED_MODULE_0__["default"].$on('groupCreated', function (data) {
       _this.group = data;
     });
+  },
+  methods: {
+    fetchingConversations: function fetchingConversations() {
+      var _this2 = this;
+
+      axios.get('/conversations').then(function (data) {
+        _this2.conversations = data.data.conversations;
+      });
+    },
+    saveNewGroupMessage: function saveNewGroupMessage(id) {
+      axios({
+        method: 'post',
+        url: '/conversations',
+        data: {
+          newmessage: this.newmessage,
+          group_id: id
+        }
+      }).then(function (response) {
+        console.log(response);
+      }, function (error) {
+        console.log(error);
+      });
+    }
   }
 });
 
@@ -48114,23 +48139,15 @@ var render = function() {
       _c(
         "ul",
         { staticClass: "chat" },
-        _vm._l(_vm.messages, function(message) {
+        _vm._l(_vm.conversations, function(conversation) {
           return _c("li", { staticClass: "left clearfix" }, [
             _c("div", { staticClass: "chat-body clearfix" }, [
-              _c("div", { staticClass: "header" }, [
-                _c("strong", { staticClass: "primary-font" }, [
-                  _vm._v(
-                    "\n                            " +
-                      _vm._s(message.user.name) +
-                      "\n                        "
-                  )
-                ])
-              ]),
+              _vm._m(0, true),
               _vm._v(" "),
               _c("p", [
                 _vm._v(
                   "\n                        " +
-                    _vm._s(message.message) +
+                    _vm._s(conversation.message) +
                     "\n                    "
                 )
               ])
@@ -48141,7 +48158,49 @@ var render = function() {
       )
     ]),
     _vm._v(" "),
-    _vm._m(0)
+    _c("div", { staticClass: "input-group" }, [
+      _c("input", {
+        directives: [
+          {
+            name: "model",
+            rawName: "v-model",
+            value: _vm.newmessage,
+            expression: "newmessage"
+          }
+        ],
+        staticClass: "form-control input-sm",
+        attrs: {
+          id: "btn-input",
+          type: "text",
+          name: "message",
+          placeholder: "Type your message here..."
+        },
+        domProps: { value: _vm.newmessage },
+        on: {
+          input: function($event) {
+            if ($event.target.composing) {
+              return
+            }
+            _vm.newmessage = $event.target.value
+          }
+        }
+      }),
+      _vm._v(" "),
+      _c("span", { staticClass: "input-group-btn" }, [
+        _c(
+          "button",
+          {
+            staticClass: "btn btn-primary btn-sm ml-2",
+            on: {
+              click: function($event) {
+                return _vm.saveNewGroupMessage(_vm.group.id)
+              }
+            }
+          },
+          [_vm._v("Send")]
+        )
+      ])
+    ])
   ])
 }
 var staticRenderFns = [
@@ -48149,22 +48208,8 @@ var staticRenderFns = [
     var _vm = this
     var _h = _vm.$createElement
     var _c = _vm._self._c || _h
-    return _c("div", { staticClass: "input-group" }, [
-      _c("input", {
-        staticClass: "form-control input-sm",
-        attrs: {
-          id: "btn-input",
-          type: "text",
-          name: "message",
-          placeholder: "Type your message here..."
-        }
-      }),
-      _vm._v(" "),
-      _c("span", { staticClass: "input-group-btn" }, [
-        _c("button", { staticClass: "btn btn-primary btn-sm ml-2" }, [
-          _vm._v("Send")
-        ])
-      ])
+    return _c("div", { staticClass: "header" }, [
+      _c("strong", { staticClass: "primary-font" })
     ])
   }
 ]

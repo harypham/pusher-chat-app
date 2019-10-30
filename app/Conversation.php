@@ -11,13 +11,13 @@ class Conversation extends Model
         'id', 'message', 'user_id', 'group_id'
     ];
 
-    public function users()
+    public function user()
     {
-        return $this->hasMany(User::class);
+        return $this->belongsTo(User::class);
     }
 
-    public function groups()
+    public function group()
     {
-        return $this->hasMany(Conversation::class);
+        return $this->belongsTo(Group::class);
     }
 }

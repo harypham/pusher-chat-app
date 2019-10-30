@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Conversation;
 use App\Group;
 use App\User;
 use Illuminate\Http\Request;
@@ -14,6 +15,7 @@ class GroupChatController extends Controller
     {
         $users = User::all();
         $idUser = Auth::id();
+
         $data = [
             'users' => $users,
             'groups' => Group::with('users')->get(),

@@ -21,4 +21,13 @@ class Group extends Model
         return $this->belongsToMany(Conversation::class);
     }
 
+    public function hasUser($user_id)
+    {
+        foreach ($this->users as $user) {
+            if ($user->id == $user_id) {
+                return true;
+            }
+        }
+    }
+
 }
