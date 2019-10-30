@@ -25,3 +25,4 @@ Route::get('messages', 'ChatController@fetchMessages')->middleware('auth');
 Route::post('messages', 'ChatController@sendMessage')->middleware('auth');
 
 Route::resource('groups','GroupChatController')->middleware('auth');
+Route::resource('conversations','ConversationController')->middleware('auth');
